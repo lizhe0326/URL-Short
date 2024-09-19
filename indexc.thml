@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorten-URL</title>
+    <style>
+        /* ... (previous styles remain unchanged) ... */
+
+        .form-group>#submit {
+            width: 75%;
+            line-height: 40px;
+            font-size: 18px;
+            background-color: #2e4aff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: auto;
+            margin-top: 20px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group>#submit.pressed {
+            background-color: #1a2e99;
+        }
+
+        /* ... (rest of the styles remain unchanged) ... */
+    </style>
+</head>
+
+<body>
+    <!-- ... (previous HTML content remains unchanged) ... -->
+
+    <script>
+        var dialog = document.querySelector('.dialog');
+        var url = document.getElementById('url');
+        var shortStr = document.getElementById('shortStr');
+        var submit = document.getElementById('submit');
+        submit.onclick = function () {
+            // Add pressed class
+            submit.classList.add('pressed');
+            
+            // Remove pressed class after 300ms
+            setTimeout(() => {
+                submit.classList.remove('pressed');
+            }, 300);
+
+            if (url.value == '') {
+                alert('请输入长链接');
+                return false;
+            }
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    url: url.value,
+                    shortStr: shortStr.value
+                })
+            }).then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw res;
+            }).then(function (data) {
+                // ... (rest of the code remains unchanged) ...
+            }).catch(async function (err) {
+                // ... (rest of the code remains unchanged) ...
+            })
+        }
+        // ... (rest of the script remains unchanged) ...
+    </script>
+</body>
+
+</html>
